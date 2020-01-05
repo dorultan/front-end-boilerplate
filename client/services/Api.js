@@ -76,6 +76,8 @@ const sendRequest = (endpoint, method, data = {}, headers = {}) => new Promise(a
 export default {
   get: (endpoint, data = {}) => sendRequest(endpoint, 'GET', data),
   post: (endpoint, data = {}) => sendRequest(endpoint, 'POST', data),
+  put: (endpoint, data = {}) => sendRequest(endpoint, 'PUT', data),
+  patch: (endpoint, data = {}) => sendRequest(endpoint, 'PATCH', data),
   cancel: () => {
     for (const requestId in requests) {
       if (!requests.hasOwnProperty(requestId)) {
