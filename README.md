@@ -28,7 +28,7 @@ docker-compose exec api composer require guzzlehttp/guzzle
 docker-compose exec client npm add lodash # or npm add -D lodash for a dev dependency
 ```
 
-### Server Install
+### Production Install
 
 ```bash
 # Setup .env file
@@ -58,4 +58,10 @@ docker-compose -f docker-compose.prod.yml exec api php artisan key:generate
 
 # Migrate and seed database
 docker-compose -f docker-compose.prod.yml exec api php artisan migrate --seed
+```
+
+### Updating Production
+
+```bash
+./bin/update.sh
 ```
