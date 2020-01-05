@@ -21,6 +21,7 @@ const config = {
     new webpack.DefinePlugin({
       // Pass values from .env file to browser
       'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT),
+      'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
     }),
     new HtmlWebpackPlugin({
       template: path.join(SRC_PATH, 'index.ejs'),
@@ -51,7 +52,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|webp|svg|mp4|webm|woff|woff2|ico)$/,
+        test: /\.(png|jpeg|jpg|gif|webp|svg|mp4|webm|woff|woff2|ico)$/,
         use: [
           {
             loader: 'file-loader',
