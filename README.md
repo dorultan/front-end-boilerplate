@@ -1,4 +1,4 @@
-# Boilerplate
+# Full-stack Boilerplate
 
 Boilerplate repository for a full-stack Laravel and React web app.
 
