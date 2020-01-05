@@ -1,6 +1,6 @@
 import React, {createContext, PureComponent} from "react";
 import Api from "../services/Api";
-import Loading from "../components/Loading";
+import content from "../config/content";
 
 const Context = createContext({});
 
@@ -15,6 +15,7 @@ export default class AppContextProvider extends PureComponent {
   state = {
     loading: true,
     config: {},
+    content,
   };
 
   #getContext = () => ({
@@ -29,10 +30,6 @@ export default class AppContextProvider extends PureComponent {
   }
 
   render() {
-    if (this.state.loading) {
-      return <Loading>Loading...</Loading>;
-    }
-
     return (
       <Context.Provider value={this.#getContext()}>
         {this.props.children}

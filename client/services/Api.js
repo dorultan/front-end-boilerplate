@@ -8,82 +8,94 @@ const DEFAULT_HEADERS = {
   'Accept': 'application/json',
 };
 
-const requests = {};
+export default new class Api {
+  #requests = {};
 
-const sendRequest = (endpoint, method, data = {}, headers = {}) => new Promise(async resolve => {
-  const requestId = Date.now();
+  #sendRequest = (endpoint, method, data = {}, headers = {}) => new Promise(async resolve => {
+    const requestId = Date.now();
 
-  endpoint = `${process.env.API_ENDPOINT}/api/${endpoint.replace(/(^\/api\/)|(^api\/)|(^\/)/, '')}`;
+    endpoint = `${process.env.API_ENDPOINT}/api/${endpoint.replace(/(^\/api\/)|(^api\/)|(^\/)/, '')}`;
 
-  headers = {...DEFAULT_HEADERS, ...headers};
+    headers = {...DEFAULT_HEADERS, ...headers};
 
-  let body, qs;
+    let body, qs;
 
-  if (METHODS_WITH_BODY.indexOf(method) > -1) {
-    const formData = new FormData();
-    for (const name in data) {
-      if (!data.hasOwnProperty(name)) {
-        continue;
+    if (METHODS_WITH_BODY.indexOf(method) > -1) {
+      const formData = new FormData();
+      for (const name in data) {
+        if (!data.hasOwnProperty(name)) {
+          continue;
+        }
+        formData.append(name, data[name]);
       }
-      formData.append(name, data[name]);
+      body = formData;
+    } else {
+      qs = data;
     }
-    body = formData;
-  } else {
-    qs = data;
-  }
 
-  let errors = [];
-  let responseBody = null;
-  let status = 500;
-  let ok = false;
-
-  try {
-    requests[requestId] = new AbortController();
-    const res = await fetch(endpoint, {
-      method,
-      headers,
-      body,
-      qs,
-      signal: requests[requestId].signal,
-    });
-
-    delete requests[requestId];
-
-    status = res.status;
-    ok = res.ok;
+    let errors = [];
+    let responseBody = null;
+    let status = 500;
+    let ok = false;
 
     try {
-      const json = await res.json();
-      errors = json.errors || [];
-      delete json.errors;
-      responseBody = json;
-    } catch {
-      // Ignore JSON parse errors
+      this.#requests[requestId] = new AbortController();
+      const res = await fetch(endpoint, {
+        method,
+        headers,
+        body,
+        qs,
+        signal: this.#requests[requestId].signal,
+      });
+
+      delete this.#requests[requestId];
+
+      status = res.status;
+      ok = res.ok;
+
+      try {
+        const json = await res.json();
+        errors = json.errors || [];
+        delete json.errors;
+        responseBody = json;
+      } catch {
+        // Ignore JSON parse errors
+      }
+    } catch (err) {
+      errors = ['Server error'];
+      console.error(err.message);
     }
-  } catch (err) {
-    errors = ['Server error'];
-    console.error(err.message);
+
+    resolve({
+      ok,
+      status,
+      errors,
+      body: responseBody,
+    });
+  });
+
+  get(endpoint, data = {}) {
+    return this.#sendRequest(endpoint, 'GET', data);
   }
 
-  resolve({
-    ok,
-    status,
-    errors,
-    body: responseBody,
-  });
-});
+  post(endpoint, data = {}) {
+    return this.#sendRequest(endpoint, 'POST', data);
+  }
 
-export default {
-  get: (endpoint, data = {}) => sendRequest(endpoint, 'GET', data),
-  post: (endpoint, data = {}) => sendRequest(endpoint, 'POST', data),
-  put: (endpoint, data = {}) => sendRequest(endpoint, 'PUT', data),
-  patch: (endpoint, data = {}) => sendRequest(endpoint, 'PATCH', data),
-  cancel: () => {
-    for (const requestId in requests) {
-      if (!requests.hasOwnProperty(requestId)) {
+  put(endpoint, data = {}) {
+    return this.#sendRequest(endpoint, 'PUT', data);
+  }
+
+  patch(endpoint, data = {}) {
+    return this.#sendRequest(endpoint, 'PATCH', data);
+  }
+
+  cancel() {
+    for (const requestId in this.#requests) {
+      if (!this.#requests.hasOwnProperty(requestId)) {
         continue;
       }
-      requests[requestId].abort();
+      this.#requests[requestId].abort();
     }
-  },
+  }
 }
