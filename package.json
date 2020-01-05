@@ -1,4 +1,5 @@
 {
+  "homepage": "/",
   "private": true,
   "scripts": {
     "watch": "npx webpack-dev-server --hot --mode development",

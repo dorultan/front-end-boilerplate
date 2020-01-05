@@ -13,7 +13,6 @@ export const AppContext = Component => props => (
 
 export default class AppContextProvider extends PureComponent {
   state = {
-    loading: true,
     config: {},
     content,
   };
@@ -25,7 +24,7 @@ export default class AppContextProvider extends PureComponent {
   async componentDidMount() {
     const res = await Api.get('/config');
     if (res.ok) {
-      this.setState({config: res.body, loading: false});
+      this.setState({config: res.body});
     }
   }
 
