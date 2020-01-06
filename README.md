@@ -18,6 +18,8 @@ docker-compose exec api php artisan key:generate
 docker-compose exec api php artisan migrate --seed
 ```
 
+Now [localhost:8081](http://localhost:8081) will serve the compiled assets once the client service has finished processing.
+
 ### Adding Packages
 
 ```bash
@@ -58,6 +60,18 @@ docker-compose -f docker-compose.prod.yml exec api php artisan key:generate
 
 # Migrate and seed database
 docker-compose -f docker-compose.prod.yml exec api php artisan migrate --seed
+```
+
+### Cron Jobs
+
+```bash
+crontab -e
+```
+
+Open crontab file and add this line to run scheduled jobs from the API service.
+
+```bash
+* * * * * docker-compose -f /path/to/project/docker-compose.prod.yml exec api php artisan schedule:run >/dev/null 2>&1
 ```
 
 ### Updating Production
