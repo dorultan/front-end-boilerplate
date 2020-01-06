@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- @todo Add Google Analytics. -->
+    <% if (htmlWebpackPlugin.options.environment.APP_ENV === 'production') { %>
+        <!-- @todo Add Google Analytics. -->
+    <% } %>
     <meta charset="UTF-8">
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -12,20 +14,22 @@
     You need to enable JavaScript to run this app.
 </noscript>
 <div id="root-app"></div>
-<script async defer>
-    var $buoop = {required: {e: -4, f: -3, o: -3, s: -1, c: -3}, insecure: true, api: 2020.01};
+<% if (htmlWebpackPlugin.options.environment.APP_ENV === 'production') { %>
+    <script async defer>
+        var $buoop = {required: {e: -4, f: -3, o: -3, s: -1, c: -3}, insecure: true, api: 2020.01};
 
-    function $buo_f() {
-        var e = document.createElement("script");
-        e.src = "//browser-update.org/update.min.js";
-        document.body.appendChild(e);
-    }
+        function $buo_f() {
+            var e = document.createElement("script");
+            e.src = "//browser-update.org/update.min.js";
+            document.body.appendChild(e);
+        }
 
-    try {
-        document.addEventListener("DOMContentLoaded", $buo_f, false)
-    } catch (e) {
-        window.attachEvent("onload", $buo_f)
-    }
-</script>
+        try {
+            document.addEventListener("DOMContentLoaded", $buo_f, false)
+        } catch (e) {
+            window.attachEvent("onload", $buo_f)
+        }
+    </script>
+<% } %>
 </body>
 </html>

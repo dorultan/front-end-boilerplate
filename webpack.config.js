@@ -26,6 +26,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: path.join(SRC_PATH, 'index.ejs'),
       favicon: path.join(SRC_PATH, 'assets', 'favicon.ico'),
+      environment: {
+        APP_ENV: process.env.APP_ENV,
+      },
       minify: {
         collapseWhitespace: true,
         removeComments: true,
