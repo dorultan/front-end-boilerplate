@@ -1,0 +1,14 @@
+node_modules/
+vendor/
+.git/
+.idea/
+build/
+README.md
+.editorconfig
+.gitattributes
+.gitignore
+.DS_Store
+composer.lock
+package-lock.json
+.phpunit.result.cache
+npm-debug.log

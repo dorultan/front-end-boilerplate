@@ -15,4 +15,6 @@ ADD package.json ./
 
 RUN npm install --no-progress --ignore-optional
 
-ADD . ./
+ADD ./client ./
+ADD ./.babelrc ./
+ADD ./webpack.config.js ./
