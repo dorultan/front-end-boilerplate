@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 require('dotenv').config();
 
 const SRC_PATH = path.resolve(__dirname, 'client');
@@ -39,7 +40,6 @@ const config = {
     }),
   ],
   optimization: {
-    minimize: true,
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
@@ -90,6 +90,16 @@ module.exports = (env, argv) => {
 
   if (argv.mode === 'production') {
     config.devtool = false;
+
+    config.optimization.minimize = true;
+    config.optimization.minimizer = [
+      new TerserPlugin({
+        extractComments: 'all',
+        terserOptions: {
+          mangle: true,
+        },
+      }),
+    ];
 
     config.plugins = [
       ...config.plugins,
