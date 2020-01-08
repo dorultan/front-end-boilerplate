@@ -17,6 +17,16 @@ services:
     volumes:
       - ./storage/mysql:/var/lib/mysql
 
+  redis:
+    image: 'redis:5'
+    restart: on-failure
+    environment:
+      - REDIS_HOST=${REDIS_HOST:-127.0.0.1}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-null}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+    volumes:
+      - ./storage/redis:/var/www/storage/redis
+
   client:
     build:
       context: ./
@@ -39,7 +49,9 @@ services:
       - ./:/var/www
       - /var/www/vendor
       - ./services/api/default.ini:/usr/local/etc/php/conf.d/default.ini
+      - ./services/api/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
     depends_on:
+      - redis
       - mysql
     command: ./services/api/init.sh
 
