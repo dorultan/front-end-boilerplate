@@ -13,7 +13,7 @@ export default new class Api {
 
   #sendRequest = (endpoint, method, data = {}, headers = {}) => new Promise(async resolve => {
     const requestId = Date.now();
-    const apiEndpoint = navigator.userAgent === 'ReactSnap' && process.env.APP_ENV === 'local' ? 'http://nginx' : process.env.API_ENDPOINT;
+    const apiEndpoint = navigator.userAgent === 'ReactSnap' && process.env.APP_ENV === 'local' ? 'http://nginx' : '';
 
     endpoint = `${apiEndpoint}/api/${endpoint.replace(/(^\/api\/)|(^api\/)|(^\/)/, '')}`;
 

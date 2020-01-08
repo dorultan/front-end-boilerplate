@@ -47,8 +47,6 @@ APP_DEBUG=false
 DB_HOST=remote-host
 DB_USERNAME=remote-db-username
 DB_PASSWORD=remote-db-password
-
-API_ENDPOINT=https://domain.tld
 ```
 
 ```bash

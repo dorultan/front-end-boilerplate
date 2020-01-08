@@ -20,7 +20,6 @@ const config = {
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       // Pass values from .env file to browser
-      'process.env.API_ENDPOINT': JSON.stringify(process.env.API_ENDPOINT),
       'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
     }),
     new HtmlWebpackPlugin({
