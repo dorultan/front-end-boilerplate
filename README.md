@@ -62,18 +62,6 @@ docker-compose -f docker-compose.prod.yml exec api php artisan key:generate
 docker-compose -f docker-compose.prod.yml exec api php artisan migrate --seed
 ```
 
-### Cron Jobs
-
-```bash
-crontab -e
-```
-
-Open crontab file and add this line to run scheduled jobs from the API service.
-
-```bash
-* * * * * docker-compose -f /path/to/project/docker-compose.prod.yml exec api php artisan schedule:run >/dev/null 2>&1
-```
-
 ### Updating Production
 
 ```bash
