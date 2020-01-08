@@ -75,9 +75,6 @@ const config = {
     writeToDisk: true,
     port: process.env.CLIENT_DEV_PORT,
     host: '0.0.0.0',
-    proxy: {
-      '/': `http://0.0.0.0:${process.env.NGINX_PORT}`,
-    },
   },
   devtool: 'source-map',
 };
