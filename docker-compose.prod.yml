@@ -31,6 +31,7 @@ services:
       - ./:/var/www
       - /var/www/vendor
       - ./services/api/default.ini:/usr/local/etc/php/conf.d/default.ini
+      - ./services/api/scheduler.conf:/etc/cron.d/scheduler.conf
     depends_on:
       - redis
     command: ./services/api/init.sh

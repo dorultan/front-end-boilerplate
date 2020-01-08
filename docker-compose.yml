@@ -50,6 +50,7 @@ services:
       - /var/www/vendor
       - ./services/api/default.ini:/usr/local/etc/php/conf.d/default.ini
       - ./services/api/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./services/api/scheduler.conf:/etc/cron.d/scheduler.conf
     depends_on:
       - redis
       - mysql
