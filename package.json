@@ -7,6 +7,10 @@
     "postbuild": "npx react-snap"
   },
   "reactSnap": {
+    "include": [
+      "/",
+      "/about"
+    ],
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
