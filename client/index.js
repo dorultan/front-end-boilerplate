@@ -10,10 +10,22 @@ import App from "./components/App";
 const root = document.querySelector('#root-app');
 const renderer = {hydrate, render}[root.hasChildNodes() ? 'hydrate' : 'render'];
 
-renderer((
-  <Router>
-    <AppContextProvider>
-      <App/>
-    </AppContextProvider>
-  </Router>
-), root);
+(async () => {
+  if (!('fetch' in window)) {
+    console.log('Loading fetch polyfill...');
+    await import("./polyfills/fetch");
+  }
+
+  if (!('AbortController' in window)) {
+    console.log('Loading AbortController polyfill...');
+    await import("./polyfills/abortController");
+  }
+
+  renderer((
+    <Router>
+      <AppContextProvider>
+        <App/>
+      </AppContextProvider>
+    </Router>
+  ), root);
+})();
