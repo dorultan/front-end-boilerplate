@@ -1,7 +1,7 @@
 FROM php:7.2-fpm
 
 RUN apt-get update --fix-missing && apt-get install -y apt-transport-https
-RUN apt-get install -y git curl openssl zip unzip build-essential zlib1g-dev libpng-dev supervisor cron
+RUN apt-get install -y git curl openssl zip unzip build-essential libzip-dev libpng-dev supervisor cron
 
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.0.0.tar.gz \
     && tar xvf /tmp/redis.tar.gz \
@@ -9,8 +9,10 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/5.
     && mkdir -p /usr/src/php/ext \
     && mv phpredis-* /usr/src/php/ext/redis
 
-RUN docker-php-ext-install pdo_mysql mbstring zip gd bcmath redis
 RUN docker-php-ext-configure pdo_mysql
+RUN docker-php-ext-install pdo_mysql mbstring gd bcmath redis
+RUN docker-php-ext-configure zip --with-libzip
+RUN docker-php-ext-install zip
 RUN docker-php-ext-enable redis
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
