@@ -74,3 +74,7 @@ The following command will update docker services, run new database migrations, 
 ```bash
 ./bin/updateProd.sh
 ```
+
+### Notes
+
+At this time of writing this (Jan 14th 2020), `ReactDOM.hydrate` causes issues with `React.createPortal` calls. This means the app cannot be to statically rendered. To fix this, remove the `postbuild` scrip from the scripts block inside `package.json`.
