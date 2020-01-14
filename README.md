@@ -58,7 +58,7 @@ DB_PASSWORD=remote-db-password
 
 ```bash
 # Build and start docker services
-docker-compose -f docker-compose.prod.yml up --build # This will take ~5 minutes on first run
+docker-compose -f docker-compose.prod.yml up --build -d # This will take ~5 minutes on first run
 
 # Generate APP_KEY env
 docker-compose -f docker-compose.prod.yml exec api php artisan key:generate
