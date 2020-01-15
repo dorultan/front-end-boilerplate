@@ -1,4 +1,4 @@
-import React, {lazy, Component, Suspense} from "react";
+import React, {Component, lazy, Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
@@ -8,8 +8,6 @@ import Api from "../services/Api";
 const HomeScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "HomeScreen" */ '../screens/HomeScreen'));
 const AboutScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "AboutScreen" */ '../screens/AboutScreen'));
 const NotFoundScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "NotFoundScreen" */ '../screens/NotFoundScreen'));
-
-const Screen = Component => props => <Component {...props}/>;
 
 export default class App extends Component {
   static childContextTypes = {
@@ -22,10 +20,13 @@ export default class App extends Component {
     content,
   };
 
+  #toggleLoading = loading => this.setState({loading});
+
   getChildContext() {
     return {
       app: {
         ...this.state,
+        toggleLoading: this.#toggleLoading,
       },
     };
   }
@@ -38,6 +39,8 @@ export default class App extends Component {
   }
 
   render() {
+    console.log('App.render');
+
     if (this.state.loading) {
       return <Loading>Loading...</Loading>;
     }
@@ -46,9 +49,9 @@ export default class App extends Component {
       <Router>
         <Suspense fallback={<Loading>Loading...</Loading>}>
           <Switch>
-            <Route exact path="/" component={Screen(HomeScreen)}/>
-            <Route exact path="/about" component={Screen(AboutScreen)}/>
-            <Route component={Screen(NotFoundScreen)}/>
+            <Route exact path="/" component={HomeScreen}/>
+            <Route exact path="/about" component={AboutScreen}/>
+            <Route component={NotFoundScreen}/>
           </Switch>
         </Suspense>
       </Router>
