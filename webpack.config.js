@@ -18,7 +18,6 @@ const config = {
     publicPath: '/',
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       // Pass values from .env file to browser
       'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
@@ -38,6 +37,7 @@ const config = {
         useShortDoctype: true,
       },
     }),
+    new CleanWebpackPlugin(),
   ],
   optimization: {
     runtimeChunk: 'single',
