@@ -1,4 +1,4 @@
-import React, {Component, lazy, Suspense} from "react";
+import React, {Component, createContext, lazy, Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
@@ -9,27 +9,17 @@ const HomeScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName:
 const AboutScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "AboutScreen" */ '../screens/AboutScreen'));
 const NotFoundScreen = lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "NotFoundScreen" */ '../screens/NotFoundScreen'));
 
+export const AppContext = createContext({});
+
 export default class App extends Component {
-  static childContextTypes = {
-    app: PropTypes.object,
-  };
+  #toggleLoading = loading => this.setState({loading});
 
   state = {
     loading: true,
     config: {},
     content,
+    toggleLoading: this.#toggleLoading,
   };
-
-  #toggleLoading = loading => this.setState({loading});
-
-  getChildContext() {
-    return {
-      app: {
-        ...this.state,
-        toggleLoading: this.#toggleLoading,
-      },
-    };
-  }
 
   async componentDidMount() {
     const res = await Api.get('/config');
@@ -39,22 +29,22 @@ export default class App extends Component {
   }
 
   render() {
-    console.log('App.render');
-
     if (this.state.loading) {
       return <Loading>Loading...</Loading>;
     }
 
     return (
-      <Router>
-        <Suspense fallback={<Loading>Loading...</Loading>}>
-          <Switch>
-            <Route exact path="/" component={HomeScreen}/>
-            <Route exact path="/about" component={AboutScreen}/>
-            <Route component={NotFoundScreen}/>
-          </Switch>
-        </Suspense>
-      </Router>
+      <AppContext.Provider value={this.state}>
+        <Router>
+          <Suspense fallback={<Loading>Loading...</Loading>}>
+            <Switch>
+              <Route exact path="/" component={HomeScreen}/>
+              <Route exact path="/about" component={AboutScreen}/>
+              <Route component={NotFoundScreen}/>
+            </Switch>
+          </Suspense>
+        </Router>
+      </AppContext.Provider>
     );
   }
 }

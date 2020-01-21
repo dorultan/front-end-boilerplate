@@ -1,11 +1,9 @@
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import Screen from "../components/Screen";
+import {AppContext} from "../components/App";
 
 export default class AboutScreen extends Component {
-  static contextTypes = {
-    app: PropTypes.object,
-  };
+  static contextType = AppContext;
 
   render() {
     return (
