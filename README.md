@@ -1,80 +1,9 @@
-# Full-stack Boilerplate
+# Front-end Boilerplate
 
-Boilerplate repository for a full-stack Laravel and React web app.
-
-### Quick Start (Development)
-
-Make sure [Docker Desktop](https://www.docker.com/products/docker-desktop) is setup and running.
+Boilerplate repository for building front-end only apps.
 
 ```bash
-# Setup .env file
-cp .env.example .env
+npm run build // for production
+npm run watch // for development
 
-# Build and start docker services
-docker-compose up --build # This will take ~5 minutes on first run
-
-# Set APP_KEY env
-docker-compose exec api php artisan key:generate
-
-# Migrate and seed the database
-docker-compose exec api php artisan migrate --seed
-
-# (Optional) install PHP and Node packages locally for better IDE support
-composer install && npm install
 ```
-
-Once the client service is finished compiling, [localhost:8000](http://localhost:8000) will serve the compiled assets.
-
-### Adding Packages
-
-```bash
-# Add a PHP package
-docker-compose exec api composer require guzzlehttp/guzzle
-
-# Add a JS package
-docker-compose exec client npm add lodash # or npm add -D lodash for a dev dependency
-```
-
-### Production Install
-
-Make sure [Docker daemon](https://docs.docker.com/config/daemon/) is setup and running.
-
-```bash
-# Setup .env file
-cp .env.example .env
-```
-
-Setup remote database, then change these values inside the .env file:
-
-```dotenv
-APP_ENV=production
-APP_DEBUG=false
-
-# Change the DB_* variables to point to a remote database
-DB_HOST=remote-host
-DB_USERNAME=remote-db-username
-DB_PASSWORD=remote-db-password
-```
-
-```bash
-# Build and start docker services
-docker-compose -f docker-compose.prod.yml up --build -d # This will take ~5 minutes on first run
-
-# Generate APP_KEY env
-docker-compose -f docker-compose.prod.yml exec api php artisan key:generate
-
-# Migrate and seed the database
-docker-compose -f docker-compose.prod.yml exec api php artisan migrate --seed
-```
-
-### Updating Production
-
-The following command will update docker services, run new database migrations, and build client assets.
-
-```bash
-./bin/updateProd.sh
-```
-
-### Notes
-
-At this time of writing this (Jan 14th 2020), `ReactDOM.hydrate` causes issues with `React.createPortal` calls. This means the app cannot be to statically rendered. To fix this, remove the `postbuild` scrip from the scripts block inside `package.json`.

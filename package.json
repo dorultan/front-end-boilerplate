@@ -4,9 +4,11 @@
   "scripts": {
     "watch": "npx webpack-dev-server --hot --mode development",
     "build": "npx webpack -p --mode production",
-    "postbuild": "npx react-snap"
+    "postbuild": "npx react-snap",
+    "start": "node server.js"
   },
   "reactSnap": {
+    "source": "build",
     "include": [
       "/",
       "/about"
@@ -19,6 +21,7 @@
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",
     "core-js": "^3.4.8",
+    "express": "^4.17.1",
     "lodash": "^4.17.15",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",

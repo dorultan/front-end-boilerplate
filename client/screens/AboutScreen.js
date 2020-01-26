@@ -4,7 +4,6 @@ import {AppContext} from "../components/App";
 
 export default class AboutScreen extends Component {
   static contextType = AppContext;
-
   render() {
     return (
       <Screen name="About">

@@ -15,7 +15,7 @@ export default class App extends Component {
   #toggleLoading = loading => this.setState({loading});
 
   state = {
-    loading: true,
+    loading: false,
     config: {},
     content,
     toggleLoading: this.#toggleLoading,
@@ -36,7 +36,7 @@ export default class App extends Component {
     return (
       <AppContext.Provider value={this.state}>
         <Router>
-          <Suspense fallback={<Loading>Loading...</Loading>}>
+          <Suspense fallback={<Loading>Loading now...</Loading>}>
             <Switch>
               <Route exact path="/" component={HomeScreen}/>
               <Route exact path="/about" component={AboutScreen}/>

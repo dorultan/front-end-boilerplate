@@ -23,6 +23,7 @@ const config = {
       'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV),
     }),
     new HtmlWebpackPlugin({
+      // Ensure all generated html files (e.g: 404.html, notFound.html, etc ..) has the proper title tag
       template: path.join(SRC_PATH, 'index.ejs'),
       favicon: path.join(SRC_PATH, 'assets', 'favicon.ico'),
       environment: {
@@ -75,6 +76,14 @@ const config = {
     writeToDisk: true,
     port: process.env.CLIENT_DEV_PORT,
     host: '0.0.0.0',
+    before: function(app, server, compiler) {
+
+      app.get('/api/config', function(req, res) {
+
+        res.status(200).json({env: process.env.APP_ENV});
+      })
+    },
+    historyApiFallback: true,
   },
   devtool: 'source-map',
 };
